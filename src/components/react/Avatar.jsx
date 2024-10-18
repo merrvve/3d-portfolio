@@ -29,7 +29,7 @@ export function Avatar(props) {
     headFollow,
     smoothMorphTarget,
     morphTargetSmoothing,
-  } = useControls({
+  } = {
     playAudio: true,
     headFollow: true,
     smoothMorphTarget: true,
@@ -38,10 +38,10 @@ export function Avatar(props) {
       value: "welcome",
       options: ["welcome", "pizzas"],
     },
-  });
+  };
 
-  const audio = useMemo(() => new Audio(`/audios/${script}.wav`), [script]);
-  const jsonFile = useLoader(THREE.FileLoader, `audios/${script}.json`);
+  const audio = useMemo(() => new Audio(`/audios/${script.value}.wav`), [script]);
+  const jsonFile = useLoader(THREE.FileLoader, `audios/${script.value}.json`);
   const lipsync = JSON.parse(jsonFile);
 
   useFrame(() => {
