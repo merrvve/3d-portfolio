@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-
+import { AnimatedText } from "./Animations.jsx/AnimatedText";
+import { useState, useEffect } from "react";
 const Section = (props) => {
     const {children} = props;
     return (
@@ -28,19 +29,35 @@ const Section = (props) => {
 
 const About = () => {
     return (
-        <Section>
+        <motion.section 
+        initial={{
+            opacity:0,
+            y:50
+        }}
+        whileInView={{
+            opacity:1,
+            y:0,
+            transition: {
+                duration: 1,
+                delay: 0.6
+            }
+        }}>
+            <div className="hidden md:block ml-20" >
             <h1 className="text-6xl font-extrabold leading-snug">
                 Hi, I am a 
                 <br />
                 <span className="bg-white p-2 italic rounded-lg" >Developer</span>
                 </h1>
             <p className="text-lg text-gray-600 mt-4">
-                I am building 3d worlds
+                Based in Istanbul
             </p>
-            <button className="bg-white border border-black text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white mt-16 transition duration-500">
+            <button className="border border-black bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-950 mt-16 transition duration-500">
                 Contact Me
             </button>
-        </Section>
+            </div>
+            
+            
+        </motion.section>
     )   
   };
 
@@ -48,18 +65,18 @@ const Contact = () => {
     return (
         <Section>
             <h1 className="text-6xl font-extrabold leading-snug">Contact Me</h1>
-            <div class="grid sm:grid-cols-2 items-start gap-16 p-10 max-w-4xl my-auto">
+            <div className="grid sm:grid-cols-2 items-start gap-16 p-10 max-w-4xl">
            
 
-            <form class="ml-auto space-y-4">
+            <form className="ml-auto space-y-4">
                 <input type='text' placeholder='Name'
-                    class="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
+                    className="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
                 <input type='email' placeholder='Email'
-                    class="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
+                    className="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
                 <input type='text' placeholder='Subject'
-                    class="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
+                    className="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent" />
                 <textarea placeholder='Message' rows="6"
-                    class="w-full rounded-md px-4  border  border-black bg-gray-100 text-gray-800 text-sm pt-3 outline-slate-800 focus:bg-transparent"></textarea>
+                    className="w-full rounded-md px-4  border  border-black bg-gray-100 text-gray-800 text-sm pt-3 outline-slate-800 focus:bg-transparent"></textarea>
                 <button className="bg-white border border-black text-black  rounded-lg hover:bg-black hover:text-white
                  transition duration-500 tracking-wide  text-sm px-4 py-3 w-full !mt-6">
                 Send
@@ -67,11 +84,11 @@ const Contact = () => {
                             </form>
                             <div>
                 
-                <div class="mt-12">
-                    <h2 class=" text-base font-bold">Email</h2>
-                    <ul class="mt-4">
-                        <li class="flex items-center">
-                            <div class="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
+                <div className="mt-12">
+                    <h2 className=" text-base font-bold">Email</h2>
+                    <ul className="mt-4">
+                        <li className="flex items-center">
+                            <div className="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill='black'
                                     viewBox="0 0 479.058 479.058">
                                     <path
@@ -79,20 +96,20 @@ const Contact = () => {
                                         data-original="#000000" />
                                 </svg>
                             </div>
-                            <a href="javascript:void(0)" class=" text-sm ml-4">
-                                <small class="block">Mail</small>
+                            <a href="/" className=" text-sm ml-4">
+                                <small className="block">Mail</small>
                                 <strong>info@example.com</strong>
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                <div class="mt-12">
-                    <h2 class="text-gray-800 text-base font-bold">Socials</h2>
+                <div className="mt-12">
+                    <h2 className="text-gray-800 text-base font-bold">Socials</h2>
 
-                    <ul class="flex mt-4 space-x-4">
-                        <li class="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                            <a href="javascript:void(0)">
+                    <ul className="flex mt-4 space-x-4">
+                        <li className="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
+                            <a href="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill='black'
                                     viewBox="0 0 24 24">
                                     <path
@@ -101,8 +118,8 @@ const Contact = () => {
                                 </svg>
                             </a>
                         </li>
-                        <li class="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                            <a href="javascript:void(0)">
+                        <li className="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
+                            <a href="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill='black'
                                     viewBox="0 0 511 512">
                                     <path
@@ -111,8 +128,8 @@ const Contact = () => {
                                 </svg>
                             </a>
                         </li>
-                        <li class="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
-                            <a href="javascript:void(0)">
+                        <li className="bg-[#e6e6e6cf] border  border-black h-10 w-10 rounded-full flex items-center justify-center shrink-0">
+                            <a href="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill='black'
                                     viewBox="0 0 24 24">
                                     <path
@@ -128,18 +145,75 @@ const Contact = () => {
         </Section>
     )
 }
+
+const SpeechBubble = () => {
+    const [currentText, setCurrentText] = useState([
+      "Hi, Welcome to my",
+      "portfolio website.",
+      "I am a fullstack developer.",
+      "Trying to be a creative one.",
+    ]);
+  
+    // Use a timeout to change the text after 2 seconds
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        setCurrentText(["You can ask me questions", "from this list.","Or you can scroll down", "to see more information about me."]);
+      }, 9000);
+  
+      return () => clearTimeout(timeout); // Clean up the timeout
+    }, []);
+  
+    return (
+      <>
+        <AnimatedText
+          key={currentText}
+          el="h2"
+          text={currentText} // Text updates when `currentText` changes
+          className="text-lg border border-black p-3 m-2 rounded-t-lg rounded-bl-lg bg-slate-50 md:ml-72"
+          repeatDelay={100}
+        />
+      </>
+    );
+  };
+
+const Questions = () => {
+    const questions = ["Tell me more about yourself","What is your main tech stack?","What type of services you provide?"]
+    return (
+        <ul className="list-none">
+            {
+                questions.map((question)=>(
+                    <li className="p-2 border border-black rounded-lg m-2">{question}</li>
+                ))
+            }
+        </ul>
+    )
+}
+
 export const Interface = ()=> {
     return (
-        <div className="flex flex-col items-center w-screen">
-            <About />
-            <Section>
-                <h1>Skills</h1>
-            </Section>
-            <Section>
-                <h1>Project</h1>
-            </Section>
-            <Contact />
+      <div className="flex flex-col items-center w-screen">
+        <div className="h-screen w-screen max-w-screen-2xl mx-auto p-12
+        flex md:flex-row flex-col items-center">
+            <div className="flex flex-col items-start">
+                <SpeechBubble />
+                <About />
+            </div>
+            <div className="flex items-end justify-end" >
+                <div className="ml-72">
+                    <Questions />
+                </div>
+                
+            </div>
         </div>
-    )
+        
+        <Section>
+          <h1>Skills</h1>
+        </Section>
+        <Section>
+          <h1>Project</h1>
+        </Section>
+        <Contact />
+      </div>
+    );
 }
 
