@@ -20,8 +20,8 @@ export function App() {
     <>
       {loading ? (
         <div className="flex justify-center items-center p-10 h-screen">
-          <div className="spinner m-2"></div>
-          <p>Loading...</p>
+          <div className="spinner m-2 block"></div>
+          <p className="block m-2">Loading...</p>
         </div>
       ) : (
         <MotionConfig

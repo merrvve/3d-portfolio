@@ -23,6 +23,7 @@ const corresponding = {
 };
 
 export function Avatar(props) {
+  
   const {
     playAudio,
     script,

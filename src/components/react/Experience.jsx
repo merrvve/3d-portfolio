@@ -5,6 +5,7 @@ import { Avatar } from "./Avatar";
 
 export const Experience = () => {
   
+  
   return (
     <>
     <motion.group position={[0, -1, 5]} scale={3}
