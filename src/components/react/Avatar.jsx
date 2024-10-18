@@ -5,7 +5,6 @@ Command: npx gltfjsx@6.2.3 public/models/646d9dcdc8a5f5bddbfac913.glb -o src/com
 
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { useControls } from "leva";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import * as THREE from "three";
@@ -23,6 +22,26 @@ const corresponding = {
 };
 
 export function Avatar(props) {
+  const { nodes, materials } = useGLTF("/models/avatarRpMe.glb");
+  const { animations: idleAnimation } = useFBX("/animations/Standing W_Briefcase Idle.fbx");
+  const { animations: angryAnimation } = useFBX(
+    "/animations/Pointing.fbx"
+  );
+  const { animations: greetingAnimation } = useFBX(
+    "/animations/Talking.fbx"
+  );
+
+  idleAnimation[0].name = "Idle";
+  angryAnimation[0].name = "Angry";
+  greetingAnimation[0].name = "Greeting";
+
+  const [animation, setAnimation] = useState("Idle");
+
+  const group = useRef();
+  const { actions } = useAnimations(
+    [idleAnimation[0], angryAnimation[0], greetingAnimation[0]],
+    group
+  );
   
   const {
     playAudio,
@@ -31,7 +50,7 @@ export function Avatar(props) {
     smoothMorphTarget,
     morphTargetSmoothing,
   } = {
-    playAudio: true,
+    playAudio: false,
     headFollow: true,
     smoothMorphTarget: true,
     morphTargetSmoothing: 0.5,
@@ -44,7 +63,8 @@ export function Avatar(props) {
   const audio = useMemo(() => new Audio(`/audios/${script.value}.wav`), [script]);
   const jsonFile = useLoader(THREE.FileLoader, `audios/${script.value}.json`);
   const lipsync = JSON.parse(jsonFile);
-
+  
+  
   useFrame(() => {
     const currentAudioTime = audio.currentTime;
     if (audio.paused || audio.ended) {
@@ -146,34 +166,16 @@ export function Avatar(props) {
       if (script === "welcome") {
         setAnimation("Greeting");
       } else {
-        setAnimation("Angry");
+        setAnimation("Idle");
       }
-    } else {
-      setAnimation("Idle");
+    } 
+    else {
+      setAnimation("Angry");
       audio.pause();
     }
-  }, [playAudio, script]);
+  }, [script]);
 
-  const { nodes, materials } = useGLTF("/models/avatarRpMe.glb");
-  const { animations: idleAnimation } = useFBX("/animations/Standing W_Briefcase Idle.fbx");
-  const { animations: angryAnimation } = useFBX(
-    "/animations/Pointing.fbx"
-  );
-  const { animations: greetingAnimation } = useFBX(
-    "/animations/Talking.fbx"
-  );
-
-  idleAnimation[0].name = "Idle";
-  angryAnimation[0].name = "Angry";
-  greetingAnimation[0].name = "Greeting";
-
-  const [animation, setAnimation] = useState("Idle");
-
-  const group = useRef();
-  const { actions } = useAnimations(
-    [idleAnimation[0], angryAnimation[0], greetingAnimation[0]],
-    group
-  );
+  
 
   useEffect(() => {
     actions[animation].reset().fadeIn(0.5).play();

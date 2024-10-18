@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { AnimatedText } from "./Animations.jsx/AnimatedText";
 import { useState, useEffect } from "react";
+import { Cards } from "./Cards";
+
 const Section = (props) => {
   const { children } = props;
   return (
@@ -175,7 +177,7 @@ const Contact = () => {
   );
 };
 
-const SpeechBubble = () => {
+const SpeechBubble = ({setQuestions}) => {
   const [currentText, setCurrentText] = useState([
     "Hi, Welcome to my",
     "portfolio website.",
@@ -192,6 +194,15 @@ const SpeechBubble = () => {
         "Or you can scroll down",
         "to see more information about me.",
       ]);
+      setQuestions([
+        "What type of Projects have you worked on?",
+        "What is your main tech stack?",
+        "What type of services you provide?",
+        "What are you working on now?",
+        "Do you offer ongoing support after project completion?",
+        "How is this website built?",
+        "How can I get in touch with you?"
+    ])
     }, 9000);
 
     return () => clearTimeout(timeout); // Clean up the timeout
@@ -203,29 +214,38 @@ const SpeechBubble = () => {
         key={currentText}
         el="h2"
         text={currentText} // Text updates when `currentText` changes
-        className="text-lg border border-black p-3 m-2 rounded-t-lg rounded-bl-lg bg-slate-50 md:ml-72"
+        className="text-base md:text-lg border border-black p-3 m-2 rounded-t-lg rounded-bl-lg bg-slate-50 md:ml-72"
         repeatDelay={100}
       />
     </>
   );
 };
 
-const Questions = () => {
-  const questions = [
-    "Tell me more about yourself",
-    "What is your main tech stack?",
-    "What type of services you provide?",
-  ];
+const Questions = ({questions}) => {
   return (
-    <ul className="list-none">
-      {questions.map((question) => (
-        <li key={question} className="p-2 border border-black rounded-lg m-2">{question}</li>
-      ))}
-    </ul>
+    <>
+      {
+        questions.map((question) => (
+        <motion.button key={question} 
+        initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+            transition: {
+              duration: 0.5,
+              delay: 0.5,
+            },
+          }}
+        className="text-xs md:text-sm px-3 py-2 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300">{question}</motion.button>
+      ))
+    }
+    </>
   );
 };
 
-export const Interface = () => {
+export const Interface = () => { 
+    const [questions, setQuestions] = useState([]);
   return (
     <div className="flex flex-col items-center w-screen">
       <div
@@ -233,23 +253,39 @@ export const Interface = () => {
         flex md:flex-row flex-col items-center"
       >
         <div className="flex flex-col items-start">
-          <SpeechBubble />
+          <SpeechBubble setQuestions={setQuestions} />
           <About />
         </div>
         <div className="flex items-end justify-end">
-          <div className="ml-72">
-            <Questions />
+          <div className="ml-72 flex flex-col gap-3">
+            <Questions questions={questions} />
           </div>
         </div>
       </div>
 
-      <Section>
-        <h1>Skills</h1>
-      </Section>
-      <Section>
-        <h1>Project</h1>
-      </Section>
+      <Skills />
+      <Projects />
       <Contact />
     </div>
   );
 };
+
+const Skills = () => {
+  return(
+    <Section>
+      <h1 className="text-6xl font-extrabold leading-snug">Skills</h1>
+    </Section>
+  )
+}
+
+const Projects = () => {
+  return(
+    <Section>
+      <h1 className="text-6xl font-extrabold leading-snug">Projects</h1>
+      <div className="p-10 flex justify-center">
+      <Cards />
+      </div>
+      
+    </Section>
+  )
+}

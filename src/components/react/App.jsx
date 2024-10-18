@@ -8,22 +8,11 @@ import { MotionConfig } from "framer-motion";
 import "../../styles/spinner.css"
 export function App() {
   const [section, setSection] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+ 
 
   return (
     <>
-      {loading ? (
-        <div className="flex justify-center items-center p-10 h-screen">
-          <div className="spinner m-2 block"></div>
-          <p className="block m-2">Loading...</p>
-        </div>
-      ) : (
+      
         <MotionConfig
           transition={{
             type: "spring",
@@ -38,8 +27,9 @@ export function App() {
             <ScrollControls pages={4} damping={0.1}>
               <ScrollManager section={section} onSectionChange={setSection} />
               <Scroll>
-                <Experience />
+              <Experience  />
               </Scroll>
+                
 
               <Scroll html>
                 <Interface />
@@ -47,7 +37,7 @@ export function App() {
             </ScrollControls>
           </Canvas>
         </MotionConfig>
-      )}
+      
     </>
   );
 }
