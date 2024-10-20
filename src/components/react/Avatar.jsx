@@ -35,17 +35,17 @@ export function Avatar(props) {
   angryAnimation[0].name = "Angry";
   greetingAnimation[0].name = "Greeting";
 
-  const [animation, setAnimation] = useState("Idle");
+  const [animation, setAnimation] = useState("Greeting");
 
   const group = useRef();
   const { actions } = useAnimations(
     [idleAnimation[0], angryAnimation[0], greetingAnimation[0]],
     group
   );
-  
+  const {script} = props;
   const {
     playAudio,
-    script,
+    
     headFollow,
     smoothMorphTarget,
     morphTargetSmoothing,
@@ -54,134 +54,141 @@ export function Avatar(props) {
     headFollow: true,
     smoothMorphTarget: true,
     morphTargetSmoothing: 0.5,
-    script: {
-      value: "welcome",
-      options: ["welcome", "pizzas"],
-    },
+    
   };
 
-  const audio = useMemo(() => new Audio(`/audios/${script.value}.wav`), [script]);
-  const jsonFile = useLoader(THREE.FileLoader, `audios/${script.value}.json`);
-  const lipsync = JSON.parse(jsonFile);
+  // const audio = useMemo(() => new Audio(`/audios/${script.value}.wav`), [script]);
+  // const jsonFile = useLoader(THREE.FileLoader, `audios/${script.value}.json`);
+  // const lipsync = JSON.parse(jsonFile);
   
   
-  useFrame(() => {
-    const currentAudioTime = audio.currentTime;
-    if (audio.paused || audio.ended) {
-      setAnimation("Idle");
-      return;
-    }
+  // useFrame(() => {
+  //   const currentAudioTime = audio.currentTime;
+  //   if (audio.paused || audio.ended) {
+  //     setAnimation("Idle");
+  //     return;
+  //   }
 
-    Object.values(corresponding).forEach((value) => {
-      if (!smoothMorphTarget) {
-        nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[value]
-        ] = 0;
-        nodes.Wolf3D_Teeth.morphTargetInfluences[
-          nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-        ] = 0;
-      } else {
-        nodes.Wolf3D_Head.morphTargetInfluences[
-          nodes.Wolf3D_Head.morphTargetDictionary[value]
-        ] = THREE.MathUtils.lerp(
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[value]
-          ],
-          0,
-          morphTargetSmoothing
-        );
+  //   Object.values(corresponding).forEach((value) => {
+  //     if (!smoothMorphTarget) {
+  //       nodes.Wolf3D_Head.morphTargetInfluences[
+  //         nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //       ] = 0;
+  //       nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //         nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //       ] = 0;
+  //     } else {
+  //       nodes.Wolf3D_Head.morphTargetInfluences[
+  //         nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //       ] = THREE.MathUtils.lerp(
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[value]
+  //         ],
+  //         0,
+  //         morphTargetSmoothing
+  //       );
 
-        nodes.Wolf3D_Teeth.morphTargetInfluences[
-          nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-        ] = THREE.MathUtils.lerp(
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[value]
-          ],
-          0,
-          morphTargetSmoothing
-        );
-      }
-    });
+  //       nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //         nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //       ] = THREE.MathUtils.lerp(
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[value]
+  //         ],
+  //         0,
+  //         morphTargetSmoothing
+  //       );
+  //     }
+  //   });
 
-    for (let i = 0; i < lipsync.mouthCues.length; i++) {
-      const mouthCue = lipsync.mouthCues[i];
-      if (
-        currentAudioTime >= mouthCue.start &&
-        currentAudioTime <= mouthCue.end
-      ) {
-        if (!smoothMorphTarget) {
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = 1;
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = 1;
-        } else {
-          nodes.Wolf3D_Head.morphTargetInfluences[
-            nodes.Wolf3D_Head.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = THREE.MathUtils.lerp(
-            nodes.Wolf3D_Head.morphTargetInfluences[
-              nodes.Wolf3D_Head.morphTargetDictionary[
-                corresponding[mouthCue.value]
-              ]
-            ],
-            1,
-            morphTargetSmoothing
-          );
-          nodes.Wolf3D_Teeth.morphTargetInfluences[
-            nodes.Wolf3D_Teeth.morphTargetDictionary[
-              corresponding[mouthCue.value]
-            ]
-          ] = THREE.MathUtils.lerp(
-            nodes.Wolf3D_Teeth.morphTargetInfluences[
-              nodes.Wolf3D_Teeth.morphTargetDictionary[
-                corresponding[mouthCue.value]
-              ]
-            ],
-            1,
-            morphTargetSmoothing
-          );
-        }
+  //   for (let i = 0; i < lipsync.mouthCues.length; i++) {
+  //     const mouthCue = lipsync.mouthCues[i];
+  //     if (
+  //       currentAudioTime >= mouthCue.start &&
+  //       currentAudioTime <= mouthCue.end
+  //     ) {
+  //       if (!smoothMorphTarget) {
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = 1;
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = 1;
+  //       } else {
+  //         nodes.Wolf3D_Head.morphTargetInfluences[
+  //           nodes.Wolf3D_Head.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = THREE.MathUtils.lerp(
+  //           nodes.Wolf3D_Head.morphTargetInfluences[
+  //             nodes.Wolf3D_Head.morphTargetDictionary[
+  //               corresponding[mouthCue.value]
+  //             ]
+  //           ],
+  //           1,
+  //           morphTargetSmoothing
+  //         );
+  //         nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //           nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //             corresponding[mouthCue.value]
+  //           ]
+  //         ] = THREE.MathUtils.lerp(
+  //           nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //             nodes.Wolf3D_Teeth.morphTargetDictionary[
+  //               corresponding[mouthCue.value]
+  //             ]
+  //           ],
+  //           1,
+  //           morphTargetSmoothing
+  //         );
+  //       }
 
-        break;
-      }
-    }
-  });
+  //       break;
+  //     }
+  //   }
+  // });
 
-  useEffect(() => {
-    nodes.Wolf3D_Head.morphTargetInfluences[
-      nodes.Wolf3D_Head.morphTargetDictionary["viseme_I"]
-    ] = 1;
-    nodes.Wolf3D_Teeth.morphTargetInfluences[
-      nodes.Wolf3D_Teeth.morphTargetDictionary["viseme_I"]
-    ] = 1;
-    if (playAudio) {
-      audio.play();
-      if (script === "welcome") {
-        setAnimation("Greeting");
-      } else {
-        setAnimation("Idle");
-      }
-    } 
-    else {
-      setAnimation("Angry");
-      audio.pause();
-    }
-  }, [script]);
+  // useEffect(() => {
+  //   nodes.Wolf3D_Head.morphTargetInfluences[
+  //     nodes.Wolf3D_Head.morphTargetDictionary["viseme_I"]
+  //   ] = 1;
+  //   nodes.Wolf3D_Teeth.morphTargetInfluences[
+  //     nodes.Wolf3D_Teeth.morphTargetDictionary["viseme_I"]
+  //   ] = 1;
+  //   if (playAudio) {
+  //     audio.play();
+  //     if (script === "pizzas") {
+  //       setAnimation("Greeting");
+  //     } else {
+  //       setAnimation("Idle");
+  //     }
+  //   } 
+  //   else {
+  //     setAnimation("Angry");
+  //     audio.pause();
+  //   }
+  // }, [script]);
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      setAnimation("Angry")
+    },9000)
+  },[])
+  useEffect(()=>{
+    setTimeout(()=>{
+      setAnimation("Idle")
+    },13500)
+  },[])
   
-
   useEffect(() => {
     actions[animation].reset().fadeIn(0.5).play();
     return () => actions[animation].fadeOut(0.5);
   }, [animation]);
 
+  
   // CODE ADDED AFTER THE TUTORIAL (but learnt in the portfolio tutorial ♥️)
   useFrame((state) => {
     if (headFollow) {
