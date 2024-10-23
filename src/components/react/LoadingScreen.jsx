@@ -10,21 +10,10 @@ export const LoadingScreen = () => {
     setProg(progress);
   }, [progress]);
 
-  // Convert `prog` (which ranges from 0 to 100) to a value between 0 and 1
-  const normalizedProg = prog / 100;
-
-  // Create the spring animation for `scaleX`
-  const scaleX = useSpring(normalizedProg, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
+ 
   return (
     <>
-      {/* Progress Bar */}
-      
-
+    
       {/* Loading Screen */}
       {prog !== 100 && (
         <div className="relative h-screen w-screen">
