@@ -6,13 +6,14 @@ import { useState, useEffect } from "react";
 import { ScrollManager } from "./ScrollManager";
 import { MotionConfig } from "framer-motion";
 import "../../styles/spinner.css"
+import { LoadingScreen } from "./LoadingScreen";
 export function App() {
   const [section, setSection] = useState(0);
  
 
   return (
     <>
-      
+      <LoadingScreen />
         <MotionConfig
           transition={{
             type: "spring",
