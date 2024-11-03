@@ -3,7 +3,7 @@ import ConfettiExplosion from "react-confetti-explosion";
 
 
 export function GameApp() {
-  const animals = ["elephant", "monkey", "lion"];
+  const animals = ["elephant", "monkey", "lion","cat","dog","cockerel","bear","duck","sheep","mouse"];
   const [gameState, setGameState] = useState("waiting");
   const [animalToFind, setAnimalToFind] = useState(
     animals[Math.floor(Math.random() * animals.length)]
@@ -26,11 +26,12 @@ export function GameApp() {
   
   return (
     <>
-      <div className="flex flex-col gap-10 h-screen justify-center items-center" 
-      style={{
-        backgroundColor: "#FAACA8",
-        backgroundImage: "linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%)",
-    }}>
+      <div className="flex flex-col gap-10 h-screen justify-center items-center bg-sky-900 text-white" 
+    //   style={{
+    //     backgroundColor: "#FAACA8",
+    //     backgroundImage: "linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%)",
+    // }}
+    >
         <div className="flex flex-col gap-3 justify-center items-center h-[10%] mb-10">
           {gameState === "waiting" && (
             <>
@@ -86,7 +87,7 @@ export function GameApp() {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-5">
           {animals.map((animal) => (
             <div
               key={animal}
