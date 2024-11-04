@@ -56,6 +56,9 @@ const About = () => {
         <button className="border border-black bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-950 mt-16 transition duration-500">
           Contact Me
         </button>
+        <a href="/game" className="border border-black bg-transparent text-black px-4 py-2 rounded-lg hover:bg-slate-950 hover:text-white mt-16 mx-2 transition duration-500">
+          Toddler Playground
+        </a>
       </div>
     </motion.section>
   );
@@ -251,7 +254,7 @@ export const Interface = () => {
     <div className="flex flex-col w-screen">
       <SocialIcons />
       <div
-        className="h-screen w-screen max-w-screen-2xl mx-auto p-12
+        className="h-screen w-screen max-w-screen-2xl mx-auto p-8
         flex md:flex-row flex-col items-center"
       >
         <div className="flex flex-col items-start">

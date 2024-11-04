@@ -1,6 +1,6 @@
 import { Environment} from "@react-three/drei";
 import { motion } from "framer-motion-3d";
-import { useState, useEffect } from "react";
+
 import { Avatar } from "./Avatar";
 
 export const Experience = () => {

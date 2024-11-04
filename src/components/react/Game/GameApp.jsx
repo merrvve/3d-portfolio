@@ -1,47 +1,81 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
-
+import useSound from 'use-sound';
 
 export function GameApp() {
-  const animals = ["elephant", "monkey", "lion","cat","dog","cockerel","bear","duck","sheep","mouse"];
+  
+  const initialAnimals = ["elephant", "monkey", "lion", "cat", "dog", "cockerel", "bear", "duck", "sheep", "mouse"];
+  const [animals, setAnimals] = useState(initialAnimals);
   const [gameState, setGameState] = useState("waiting");
   const [animalToFind, setAnimalToFind] = useState(
     animals[Math.floor(Math.random() * animals.length)]
   );
 
+  // Preload sounds for animals
+  const [playDog] = useSound('/audios/dog.wav');
+  const [playCat] = useSound('/audios/cat.wav');
+
+  const animalSounds = {
+    dog: playDog,
+    cat: playCat,
+    // add more sounds for animals here if available
+  };
+
   function handleGuess(animal) {
     if (animal === animalToFind) {
       setGameState("success");
+
+      // Play corresponding animal sound if available
+      if (animalSounds[animal]) animalSounds[animal]();
+
+      const guessedIndex = animals.indexOf(animalToFind);
+      if (guessedIndex !== -1) {
+        const newAnimals = animals.toSpliced(guessedIndex, 1);
+        setAnimals(newAnimals);
+      }
+
+      // Delay for success animation and choose new animal or complete game
       setTimeout(() => {
-        setGameState("waiting");
-      }, 1000);
+        if (animals.length > 1) {
+          setGameState("waiting");
+        } else {
+          setGameState("completed");
+        }
+      }, 1500);
     } else {
       setGameState("fail");
       setTimeout(() => {
         setGameState("waiting");
       }, 1000);
     }
-    setAnimalToFind(animals[Math.floor(Math.random() * animals.length)]);
   }
-  
+
+  useEffect(() => {
+    if (animals.length > 0 && gameState === "waiting") {
+      setAnimalToFind(animals[Math.floor(Math.random() * animals.length)]);
+    }
+  }, [animals, gameState]);
+
+  function resetGame() {
+    setAnimals(initialAnimals);
+    setGameState("waiting");
+    setAnimalToFind(initialAnimals[Math.floor(Math.random() * initialAnimals.length)]);
+  }
+
   return (
     <>
-      <div className="flex flex-col gap-10 h-screen justify-center items-center bg-sky-900 text-white" 
-    //   style={{
-    //     backgroundColor: "#FAACA8",
-    //     backgroundImage: "linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%)",
-    // }}
-    >
-        <div className="flex flex-col gap-3 justify-center items-center h-[10%] mb-10">
+      <div className="flex flex-col min-h-screen gap-10 justify-center items-center bg-gradient-to-b from-sky-200 to-sky-700 text-white pb-5">
+        <div className="flex flex-col gap-3 justify-center items-center h-[10%] my-10">
           {gameState === "waiting" && (
             <>
-              <h1>Can you find the {animalToFind}?</h1>
+              <h1 className="text-3xl text-slate-900">Can you find the {animalToFind}?</h1>
               <div
                 key={animalToFind}
                 className="w-[100px] h-[100px] border border-gray-500 rounded-lg mb-10"
               >
                 <img
                   src={`/assets/${animalToFind}.webp`}
+                  alt={`Image of a ${animalToFind}`}
                   className="w-full h-full"
                 />
               </div>
@@ -49,7 +83,7 @@ export function GameApp() {
           )}
           {gameState === "success" && <ConfettiExplosion />}
           {gameState === "success" && (
-            <div className="flex flex-col justify-center items-center gap-2 z-10 text-4xl text-green-700 font-extrabold">
+            <div className="flex flex-col justify-center items-center gap-2 z-10 text-5xl text-green-900 font-extrabold">
                 <h2>Good Job!</h2>
               <svg
                 width="50"
@@ -68,7 +102,7 @@ export function GameApp() {
             </div>
           )}
           {gameState === "fail" && (
-            <div className="flex flex-col justify-center items-center gap-2 z-10 text-4xl text-red-700 font-extrabold">
+            <div className="flex flex-col justify-center items-center gap-2 z-10 text-5xl text-red-900 font-extrabold">
                 <h2>No!</h2>
               <svg
                 width="50"
@@ -86,19 +120,32 @@ export function GameApp() {
               </svg>
             </div>
           )}
+          {gameState === "completed" && (
+            <div className="text-3xl font-bold text-center text-slate-900">
+              You found all the animals! 🎉
+              <button
+                onClick={resetGame}
+                className="bg-blue-600 px-4 py-2 rounded-lg text-white mt-5 hover:bg-blue-500"
+              >
+                Play Again
+              </button>
+            </div>
+          )}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-5">
+        <div className="flex gap-4 flex-wrap w-[95%] justify-center h-[10%]">
           {animals.map((animal) => (
-            <div
+            <button
               key={animal}
-              className="w-[150px] h-[150px] border border-gray-500 rounded-lg cursor-pointer"
               onClick={() => handleGuess(animal)}
+              className="w-[125px] h-[125px] sm:w-[150px] sm:h-[150px] rounded-lg border border-slate-300 shadow-md flex justify-center items-center bg-white"
             >
               <img
                 src={`/assets/${animal}.webp`}
-                className="w-full h-full filter grayscale blur-sm contrast-150 hover:filter-none transition duration-500"
+                alt={`Image of a ${animal}`}
+                onError={(e) => (e.target.src = "/assets/placeholder.webp")}
+                className="w-full h-full filter grayscale blur-sm contrast-150 hover:filter-none active:filter-none transition duration-500"
               />
-            </div>
+            </button>
           ))}
         </div>
       </div>
