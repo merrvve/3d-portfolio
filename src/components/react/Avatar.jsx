@@ -24,29 +24,27 @@ const corresponding = {
 export function Avatar(props) {
   const scroll = useScroll();
   const { nodes, materials } = useGLTF("/models/avatarRpMe.glb");
-  const { animations: idleAnimation } = useFBX("/animations/Standing W_Briefcase Idle.fbx");
-  const { animations: walkingAnimation } = useFBX(
-    "/animations/Walking.fbx"
+  const { animations: idleAnimation } = useFBX(
+    "/animations/Standing W_Briefcase Idle.fbx"
   );
-  const { animations: greetingAnimation } = useFBX(
-    "/animations/Talking.fbx"
-  );
+  const { animations: walkingAnimation } = useFBX("/animations/Walking.fbx");
+  const { animations: greetingAnimation } = useFBX("/animations/Talking.fbx");
 
   idleAnimation[0].name = "Idle";
   walkingAnimation[0].name = "Walking";
   greetingAnimation[0].name = "Greeting";
 
   const [animation, setAnimation] = useState("Greeting");
-
+  const [visible, setVisible] =useState(true);
   const group = useRef();
   const { actions } = useAnimations(
     [idleAnimation[0], walkingAnimation[0], greetingAnimation[0]],
     group
   );
-  const {script} = props;
+  const { script } = props;
   const {
     playAudio,
-    
+
     headFollow,
     smoothMorphTarget,
     morphTargetSmoothing,
@@ -55,14 +53,12 @@ export function Avatar(props) {
     headFollow: true,
     smoothMorphTarget: true,
     morphTargetSmoothing: 0.5,
-    
   };
 
   // const audio = useMemo(() => new Audio(`/audios/${script.value}.wav`), [script]);
   // const jsonFile = useLoader(THREE.FileLoader, `audios/${script.value}.json`);
   // const lipsync = JSON.parse(jsonFile);
-  
-  
+
   // useFrame(() => {
   //   const currentAudioTime = audio.currentTime;
   //   if (audio.paused || audio.ended) {
@@ -166,38 +162,40 @@ export function Avatar(props) {
   //     } else {
   //       setAnimation("Idle");
   //     }
-  //   } 
+  //   }
   //   else {
   //     setAnimation("Angry");
   //     audio.pause();
   //   }
   // }, [script]);
 
- 
-  
   useEffect(() => {
     actions[animation].reset().fadeIn(0.5).play();
     return () => actions[animation].fadeOut(0.5);
   }, [animation]);
 
   
-  const [walked, setWalked] =useState(false)
-  // CODE ADDED AFTER THE TUTORIAL (but learnt in the portfolio tutorial ♥️)
   useFrame((state) => {
-    if(scroll.offset>0.05 && !walked) {
-      setWalked(true)
-    }
-    
-    else {      
-      setAnimation("Idle")
-    }
-    if (headFollow) {
-      group.current.getObjectByName("Head").lookAt(state.camera.position);
+    const isWalking = scroll.offset > 0.05;
+
+    if (isWalking) {
+      if (animation !== "Walking") {
+        setAnimation("Walking");
+        const duration = actions.Walking.getClip().duration;
+    const timeout = setTimeout(() => {
+      setVisible(false); // Hide avatar after walking
+    }, duration * 1000);
+
+    return () => clearTimeout(timeout);
+      }
+
+    } else {
+      setVisible(true);
+      if (animation !== "Idle") setAnimation("Idle");
     }
   });
 
-  
-  return (
+  return visible ? (
     <group {...props} dispose={null} ref={group}>
       <primitive object={nodes.Hips} />
       <skinnedMesh
@@ -258,7 +256,7 @@ export function Avatar(props) {
         morphTargetInfluences={nodes.Wolf3D_Teeth.morphTargetInfluences}
       />
     </group>
-  );
+  ): null;
 }
 
 useGLTF.preload("/models/avatarRpMe.glb");
