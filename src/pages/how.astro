@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+---
+
+<Layout title="How">
+	<div
+    class="min-h-screen py-10 md:px-5 px-2 flex flex-col gap-5"
+    style="background-color: #ececaa;"
+  >
+
+  <main class="max-w-4xl mx-auto py-16 px-6">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-center">
+        <i class="bi bi-tools text-indigo-600"></i> How This Website Is Built
+      </h1>
+      <p class="text-lg leading-relaxed text-center mb-12">
+        A summary of the tech stack used to build this website.
+      </p>
+
+      <section class="grid sm:grid-cols-2 gap-8">
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-lightning-charge-fill text-yellow-500 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">Astro.js</h2>
+          <p class="text-sm">Serves pages blazing fast.</p>
+        </div>
+
+        <!-- React -->
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-layers-fill text-blue-600 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">React</h2>
+          <p class="text-sm">Makes stuff interactive.</p>
+        </div>
+
+        <!-- React Three Fiber -->
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-cube text-purple-600 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">React Three Fiber</h2>
+          <p class="text-sm">Draws 3D magic.</p>
+        </div>
+
+        <!-- React Drei -->
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-box2-heart text-pink-500 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">React Drei</h2>
+          <p class="text-sm">Saves hours of crying.</p>
+        </div>
+
+        <!-- Tailwind CSS -->
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-brush-fill text-green-600 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">Tailwind CSS</h2>
+          <p class="text-sm">Dresses everything nicely.</p>
+        </div>
+
+        <!-- Bootstrap Icons -->
+        <div class="border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white p-6">
+          <i class="bi bi-bootstrap-fill text-indigo-600 text-3xl mb-4"></i>
+          <h2 class="text-xl font-bold mb-2">Bootstrap Icons</h2>
+          <p class="text-sm">Classic and free.</p>
+        </div>
+      </section>
+
+      <div class="text-center mt-12">
+       	 <a
+      href="/"
+      class="inline-flex items-center gap-2 border border-black bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-950 mt-16 transition duration-500 max-w-52"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        fill="currentColor"
+        class="bi bi-arrow-left"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+        ></path>
+      </svg>
+      Back Home
+    </a>
+      </div>
+    </main>
+    </div>
+</Layout>
+

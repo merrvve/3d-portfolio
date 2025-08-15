@@ -68,10 +68,10 @@ export function GameApp() {
         <div className="flex flex-col gap-3 justify-center items-center h-[10%] my-10">
           {gameState === "waiting" && (
             <>
-              <h1 className="text-3xl text-slate-900">Can you find the {animalToFind}?</h1>
+              <h1 className="text-xl md:text-3xl text-slate-900">Can you find the {animalToFind}?</h1>
               <div
                 key={animalToFind}
-                className="w-[100px] h-[100px] border border-gray-500 rounded-lg mb-10"
+                className="w-[70px] h-[70px] md:w-[100px] md:h-[100px] border border-gray-500 rounded-lg mb-10"
               >
                 <img
                   src={`/assets/${animalToFind}.webp`}
@@ -137,7 +137,7 @@ export function GameApp() {
             <button
               key={animal}
               onClick={() => handleGuess(animal)}
-              className="w-[125px] h-[125px] sm:w-[150px] sm:h-[150px] rounded-lg border border-slate-300 shadow-md flex justify-center items-center bg-white"
+              className="w-[80px] h-[80px] md:w-[120px] md:h-[120px] rounded-lg border border-slate-300 shadow-md flex justify-center items-center bg-white"
             >
               <img
                 src={`/assets/${animal}.webp`}

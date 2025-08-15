@@ -1,18 +1,47 @@
 import {Section} from "./Section"
 import {SocialIcons} from "./SocialIcons"
-export const Contact = () => {
+import { useState } from "react";
+
+export default function Contact() {
+  const [result, setResult] = useState("");
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "482df5f4-ca24-4725-9596-48860c7cf867");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Form Submitted Successfully!");
+      event.target.reset();
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
+    }
+  };
+
   return (
-    <Section >
+       <Section >
       <h1 className="text-2xl md:text-6xl font-extrabold leading-snug">Contact Me</h1>
       <div className="grid sm:grid-cols-2 items-start gap-16 p-10 max-w-4xl">
-        <form className="ml-auto space-y-4">
+        <form className="ml-auto space-y-4" onSubmit={onSubmit}>
           <input
             type="text"
+            name="name" required
             placeholder="Name"
             className="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent"
           />
           <input
             type="email"
+            name="email" required
             placeholder="Email"
             className="w-full rounded-md py-3 px-4  border  border-black bg-gray-100 text-gray-800 text-sm outline-slate-800 transition duration-300 focus:bg-transparent"
           />
@@ -23,10 +52,11 @@ export const Contact = () => {
           />
           <textarea
             placeholder="Message"
+            name="message" required
             rows="6"
             className="w-full rounded-md px-4  border  border-black bg-gray-100 text-gray-800 text-sm pt-3 outline-slate-800 focus:bg-transparent"
           ></textarea>
-          <button
+          <button type="submit"
             className="border border-black bg-slate-800 text-white rounded-lg hover:bg-slate-950 
                  transition duration-500 tracking-wide  text-sm px-4 py-3 w-full !mt-6"
           >
@@ -71,6 +101,10 @@ export const Contact = () => {
           </div>
         </div>
       </div>
+      <div className="flex justify-center text-center p-2">
+        {result}
+        </div>
     </Section>
+
   );
-};
+}

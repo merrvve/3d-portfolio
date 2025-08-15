@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { AnimatedText } from "./Animations.jsx/AnimatedText";
 import { useState, useEffect } from "react";
 
-
-import {Contact} from "./sections/Contact"
+import Contact from "./sections/Contact";
 import {Projects} from "./sections/Projects"
 import {SocialIcons} from "./sections/SocialIcons"
 import {Skills} from "./sections/Skills"
@@ -16,8 +15,8 @@ const SpeechBubble = ({ setQuestions }) => {
   const [currentText, setCurrentText] = useState([
     "Hi, Welcome to my",
     "portfolio website.",
-    "I am a fullstack developer.",
-    "Trying to be a creative one.",
+    "I am a fullstack developer,",
+    "trying to be a creative one.",
   ]);
 
   // Use a timeout to change the text after 2 seconds
@@ -53,14 +52,20 @@ const SpeechBubble = ({ setQuestions }) => {
 };
 
 const Questions = ({ questions }) => {
+  // Example: mapping questions to corresponding hrefs
+  const questionLinks = {
+    "What are you working on now?": "/now",
+    "How is this website built?": "/how",
+    "How can I get in touch with you?": "/contact",
+  };
+
   return (
     <>
       {questions.map((question) => (
-        <motion.button
+        <motion.a
           key={question}
-          initial={{
-            opacity: 0,
-          }}
+          href={questionLinks[question] || "/"} // Default if no match
+          initial={{ opacity: 0 }}
           whileInView={{
             opacity: 1,
             transition: {
@@ -68,21 +73,26 @@ const Questions = ({ questions }) => {
               delay: 0.5,
             },
           }}
-          className="text-xs md:text-base px-3 py-2 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300"
+          className="text-xs md:text-base px-3 py-2 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300 inline-block"
         >
           {question}
-        </motion.button>
+        </motion.a>
       ))}
     </>
   );
 };
+
 
 export const Interface = () => {
   const [questions, setQuestions] = useState([]);
   return (
     <div className="flex flex-col w-screen">
       <div className="flex  gap-5 justify-end items-end p-5 text-gray-600 relative">
+         <a href="/now" class="hover:font-bold  hover:scale-110 hover:-rotate-6 cursor-pointer transition duration-500 ">Now</a>
+         |
+         <a href="/how" class="hover:font-bold  hover:scale-110 hover:-rotate-6 cursor-pointer transition duration-500 ">How</a>
         <SocialIcons />
+       
       </div>
 
       <div
@@ -98,9 +108,22 @@ export const Interface = () => {
             <Questions questions={questions} />
           </div>
         </div>
+        <div className="md:hidden flex items-start mt-16">
+          <a 
+        href="/contact"
+        className="border text-sm border-black bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-950 mt-10 transition duration-500">
+          Contact Me
+        </a>
+        <a
+          href="/game"
+          className="border text-sm border-black bg-slate-50 text-black px-4 py-2 rounded-lg hover:bg-slate-950 hover:text-white mt-10 mx-2 transition duration-500"
+        >
+          Toddler Playground
+        </a>
+        </div>
       </div>
 
-      <Skills />
+      <Skills />  
       <Projects />
       <Contact />
     </div>
