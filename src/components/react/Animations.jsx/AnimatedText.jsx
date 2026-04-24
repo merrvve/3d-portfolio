@@ -24,7 +24,7 @@ const defaultAnimation = {
         <span className="sr-only">{textArray.join(" ")}</span>
         <motion.span
           variants={{
-            visible: { transition: {staggerChildren: 0.1 }},
+            visible: { transition: {staggerChildren: 0.06 }},
             hidden: {}
           }}
           initial="hidden"

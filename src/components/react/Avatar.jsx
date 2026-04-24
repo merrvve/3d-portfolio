@@ -25,16 +25,17 @@ export function Avatar(props) {
   const scroll = useScroll();
   const { nodes, materials } = useGLTF("/models/avatarRpMe.glb");
   const { animations: idleAnimation } = useFBX(
-    "/animations/Standing W_Briefcase Idle.fbx"
+    "/animations/StandingIdle.fbx"
   );
   const { animations: walkingAnimation } = useFBX("/animations/Walking.fbx");
-  const { animations: greetingAnimation } = useFBX("/animations/Talking.fbx");
+  const { animations: greetingAnimation } = useFBX("/animations/TalkingPhone.fbx");
 
   idleAnimation[0].name = "Idle";
   walkingAnimation[0].name = "Walking";
   greetingAnimation[0].name = "Greeting";
 
-  const [animation, setAnimation] = useState("Greeting");
+  const [animation, setAnimation] = useState("Idle");
+  
   const [visible, setVisible] =useState(true);
   const group = useRef();
   const { actions } = useAnimations(
@@ -169,31 +170,48 @@ export function Avatar(props) {
   //   }
   // }, [script]);
 
-  useEffect(() => {
-    actions[animation].reset().fadeIn(0.5).play();
-    return () => actions[animation].fadeOut(0.5);
-  }, [animation]);
-
+  // Signal that layout effects (where drei populates actions) have run
   
-  useFrame((state) => {
-    const isWalking = scroll.offset > 0.05;
+ 
+  useEffect(() => {
+  if (!actions) return;
 
-    if (isWalking) {
-      if (animation !== "Walking") {
-        setAnimation("Walking");
-        const duration = actions.Walking.getClip().duration;
-    const timeout = setTimeout(() => {
-      setVisible(false); // Hide avatar after walking
-    }, duration * 1000);
+  const action = actions[animation];
+  if (!action) return;
 
-    return () => clearTimeout(timeout);
-      }
+  action.reset().fadeIn(0.3).play();
 
-    } else {
-      setVisible(true);
-      if (animation !== "Idle") setAnimation("Idle");
-    }
-  });
+  return () => action.fadeOut(0.3);
+}, [animation, actions]);
+
+const prevIsWalking = useRef(false);
+
+useFrame(() => {
+  const isWalking = scroll.offset > 0.05;
+  const isEnd = scroll.offset > 0.19;
+  const isContact = scroll.offset >0.8;
+if (isContact) {
+    setVisible(true);
+    setAnimation("Greeting")
+    return;
+  }
+  if (isEnd) {
+    setVisible(false);
+    return;
+  }
+  else {
+    setVisible(true);
+  }
+  if (isWalking !== prevIsWalking.current) {
+    prevIsWalking.current = isWalking;
+    setAnimation(isWalking ? "Walking" : "Idle");
+  }
+  
+});
+
+useEffect(() => {
+  console.log(actions);
+}, [actions]);
 
   return visible ? (
     <group {...props} dispose={null} ref={group}>

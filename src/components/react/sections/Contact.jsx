@@ -68,7 +68,7 @@ export default function Contact() {
             <h2 className=" text-base font-bold">Email</h2>
             <ul className="mt-4">
               <li className="flex items-center">
-                <a href="mailto:merve.keskin.sen@gmail.com">
+                <a href="mailto:mervsen@gmail.com">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="25"
@@ -82,7 +82,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="mailto:merve.keskin.sen@gmail.com"
+                  href="mailto:mervsen@gmail.com"
                   className=" text-sm ml-4"
                 >
                   <small className="block">Mail</small>

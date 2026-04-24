@@ -33,7 +33,7 @@ const SpeechBubble = ({ setQuestions }) => {
         "How is this website built?",
         "How can I get in touch with you?",
       ]);
-    }, 9000);
+    }, 5000);
 
     return () => clearTimeout(timeout); // Clean up the timeout
   }, []);
@@ -45,7 +45,7 @@ const SpeechBubble = ({ setQuestions }) => {
         el="h2"
         text={currentText} // Text updates when `currentText` changes
         className="text-xs md:text-lg border border-black p-3 m-2 rounded-t-lg rounded-bl-lg bg-slate-50 md:ml-72"
-        repeatDelay={100}
+        repeatDelay={50}
       />
     </>
   );
@@ -70,7 +70,7 @@ const Questions = ({ questions }) => {
             opacity: 1,
             transition: {
               duration: 0.5,
-              delay: 0.5,
+              delay: 0.3,
             },
           }}
           className="text-xs md:text-base px-3 py-2 border border-black rounded-lg hover:bg-black hover:text-white transition duration-300 inline-block"

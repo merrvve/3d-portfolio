@@ -18,8 +18,16 @@ export const Cards = () => {
       description: "Industrial designer portfolio website using Astro, React and Framer Motion (Ongoing)",
       skills: ["astro.js", "React.js", "Framer Motion"],
       category: "Website", 
-      url: "https://saba-design.netlify.app/",
+      url: "https://sabadesign.netlify.app/",
       img: "/projects/saba.gif"
+    },
+    {
+      title: "BulkInsta",
+      description: "An Instagram Carousel Generator SaaS App that puts your text into the selected theme by one click",
+      skills: ["Django", "PostgreSQL", "Docker","Nginx","Cloudflare R2","LemonSqueezy","Prometheus","Grafana","Angular", "Tailwind CSS"],
+      category: "Web Application",
+      url: "https://bulkinsta.com",
+      img: "/projects/bulkinsta.gif"
     },
     {
       title: "Tender/Bid Management Software",
@@ -43,7 +51,7 @@ export const Cards = () => {
       skills: ["Python", "Linux", "CLI"],
       category: "Automation",
       url: "https://github.com/merrvve/pdf-image-extract",
-      img: "pdf-extractor.png"
+      img: "/projects/pdf-image.png"
     },
     {
       title: "Background Remover",
@@ -51,7 +59,7 @@ export const Cards = () => {
       skills: ["Python", "OpenCV", "Tkinter", "Pillow"],
       category: "Desktop App",
       url: "https://github.com/merrvve/background-remover",
-      img: "bg-remover.png"
+      img: "/projects/background-remover.gif"
     },
     {
       title: "Knowledge Graph Builder",
@@ -59,23 +67,16 @@ export const Cards = () => {
       skills: ["Neo4j", "Python", "OpenAI API", "Knowledge Graphs"],
       category: "Data Science",
       url: "https://github.com/merrvve/llm-vectors-unstructured-neo4j",
-      img: "knowledge-graph.png"
+      img: "/projects/kg.png"
     },
-    {
-      title: "3D Avatar Builder",
-      description: "3D character customization tool with React Three Fiber",
-      skills: ["React", "r3f", "Three.js", "Tailwind CSS"],
-      category: "Web Application",
-      url: "https://github.com/merrvve/r3f-character",
-      img: "avatar-builder.png"
-    },
+    
     {
       title: "Astro On Scroll Reveal",
       description: "npm package for scroll animations in Astro projects",
       skills: ["astro.js", "TypeScript", "npm", "JavaScript"],
       category: "Package",
       url: "https://github.com/merrvve/astro-on-scroll-reveal",
-      img: "scroll-reveal.png"
+      img: "/projects/astro-on-scroll.png"
     }
   ];
 
