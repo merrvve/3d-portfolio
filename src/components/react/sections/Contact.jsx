@@ -86,7 +86,7 @@ export default function Contact() {
                   className=" text-sm ml-4"
                 >
                   <small className="block">Mail</small>
-                  <strong>merve.keskin.sen@gmail.com</strong>
+                  <strong>mervsen@gmail.com</strong>
                 </a>
               </li>
             </ul>
