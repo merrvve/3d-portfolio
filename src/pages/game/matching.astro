@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const themes = [
+  { href: "/game/matching/furniture", emoji: "🪑", name: "Furniture", desc: "Chairs, tables, beds…",   color: "#7C3AED", bg: "#F5F3FF" },
+  { href: "/game/matching/animals",   emoji: "🐾", name: "Animals",   desc: "Dogs, cats, fish…",     color: "#16A34A", bg: "#F0FDF4" },
+  { href: "/game/matching/plants",    emoji: "🌿", name: "Plants",    desc: "Flowers, trees, cacti…",color: "#059669", bg: "#ECFDF5" },
+  { href: "/game/matching/home",      emoji: "🏠", name: "Home",      desc: "Lamps, clocks, mugs…",  color: "#D97706", bg: "#FFFBEB" },
+];
+---
+<Layout title="Matching Games">
+  <div class="flex flex-col items-center justify-center min-h-screen gap-8 bg-gradient-to-b from-violet-100 to-white p-6">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-violet-700 drop-shadow text-center">
+      Matching Games 🔗
+    </h1>
+    <p class="text-gray-400 text-sm -mt-4">Draw a line to connect the same type</p>
+    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+      {themes.map(t => (
+        <a
+          href={t.href}
+          class="flex flex-col items-center gap-2 p-5 rounded-3xl shadow-lg transition hover:scale-105 active:scale-95 text-center"
+          style={`background:${t.bg}; border: 3px solid ${t.color};`}
+        >
+          <span class="text-4xl">{t.emoji}</span>
+          <div class="font-extrabold text-lg" style={`color:${t.color}`}>{t.name}</div>
+          <div class="text-xs text-gray-400">{t.desc}</div>
+        </a>
+      ))}
+    </div>
+    <a href="/game" class="text-gray-400 text-xs underline">← Back to Games</a>
+  </div>
+</Layout>

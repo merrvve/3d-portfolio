@@ -1,0 +1,7 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { MatchingGame } from '../../../components/react/Game/MatchingGame';
+---
+<Layout title="Match the Plants">
+  <MatchingGame theme="plants" client:only="react" />
+</Layout>
