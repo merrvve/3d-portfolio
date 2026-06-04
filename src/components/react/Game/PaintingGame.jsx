@@ -76,10 +76,9 @@ export function PaintingGame() {
     ctx.fill();
   }
 
-  // ── Pointer events ──────────────────────────────────────────
+  // ── Draw handlers (used for both mouse and touch) ────────────
   function onDown(e) {
     e.preventDefault();
-    e.currentTarget.setPointerCapture(e.pointerId);
     drawing.current = true;
     const pos = toCanvas(e);
     paint(pos.x, pos.y);
@@ -98,6 +97,29 @@ export function PaintingGame() {
     drawing.current = false;
     lastPos.current = null;
   }
+
+  // Ref always points to the latest handlers — lets us attach touch
+  // listeners once without stale-closure issues.
+  const handlersRef = useRef(null);
+  handlersRef.current = { onDown, onMove, onUp };
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ts = (e) => { e.preventDefault(); handlersRef.current.onDown(e); };
+    const tm = (e) => { e.preventDefault(); handlersRef.current.onMove(e); };
+    const te = () => handlersRef.current.onUp();
+    el.addEventListener("touchstart",  ts, { passive: false });
+    el.addEventListener("touchmove",   tm, { passive: false });
+    el.addEventListener("touchend",    te);
+    el.addEventListener("touchcancel", te);
+    return () => {
+      el.removeEventListener("touchstart",  ts);
+      el.removeEventListener("touchmove",   tm);
+      el.removeEventListener("touchend",    te);
+      el.removeEventListener("touchcancel", te);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function clear() {
     const ctx = canvasRef.current?.getContext("2d");
@@ -185,11 +207,10 @@ export function PaintingGame() {
           touchAction: "none",
           cursor: isEraser ? "cell" : "crosshair",
         }}
-        onPointerDown={onDown}
-        onPointerMove={onMove}
-        onPointerUp={onUp}
-        onPointerLeave={onUp}
-        onPointerCancel={onUp}
+        onMouseDown={onDown}
+        onMouseMove={onMove}
+        onMouseUp={onUp}
+        onMouseLeave={onUp}
       >
         {/* Layer 1 — paint canvas (white bg + strokes) */}
         <canvas

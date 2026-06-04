@@ -65,6 +65,15 @@ export function MatchingGame({ theme = "furniture" }) {
     return { x: clientX - cr.left, y: clientY - cr.top };
   }
 
+  // Works for MouseEvent, TouchEvent (move), and TouchEvent (end/cancel)
+  function getXY(e) {
+    if (e.touches && e.touches.length > 0)
+      return [e.touches[0].clientX, e.touches[0].clientY];
+    if (e.changedTouches && e.changedTouches.length > 0)
+      return [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+    return [e.clientX, e.clientY];
+  }
+
   function hitTestLeft(clientX, clientY) {
     for (let i = 0; i < PAIRS.length; i++) {
       if (matches[i]) continue;
@@ -89,24 +98,26 @@ export function MatchingGame({ theme = "furniture" }) {
   }
 
   function handlePointerDown(e) {
-    const leftIdx = hitTestLeft(e.clientX, e.clientY);
+    const [cx, cy] = getXY(e);
+    const leftIdx = hitTestLeft(cx, cy);
     if (leftIdx === null) return;
     e.preventDefault();
-    containerRef.current?.setPointerCapture(e.pointerId);
-    const pos = toContainerCoords(e.clientX, e.clientY);
+    const pos = toContainerCoords(cx, cy);
     setDragState({ pairIdx: leftIdx, x: pos.x, y: pos.y });
   }
 
   function handlePointerMove(e) {
     if (!dragState) return;
-    const pos = toContainerCoords(e.clientX, e.clientY);
+    const [cx, cy] = getXY(e);
+    const pos = toContainerCoords(cx, cy);
     setDragState(prev => prev ? { ...prev, x: pos.x, y: pos.y } : null);
   }
 
   function handlePointerUp(e) {
     if (!dragState) return;
-    const rightPairIdx = hitTestRight(e.clientX, e.clientY);
-    const endPos = toContainerCoords(e.clientX, e.clientY);
+    const [cx, cy] = getXY(e);
+    const rightPairIdx = hitTestRight(cx, cy);
+    const endPos = toContainerCoords(cx, cy);
 
     if (rightPairIdx !== null) {
       if (dragState.pairIdx === rightPairIdx) {
@@ -130,6 +141,29 @@ export function MatchingGame({ theme = "furniture" }) {
     }
     setDragState(null);
   }
+
+  // Keep touch listeners attached once; delegate to latest handlers via ref.
+  const handlersRef = useRef(null);
+  handlersRef.current = { handlePointerDown, handlePointerMove, handlePointerUp };
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ts = (e) => { e.preventDefault(); handlersRef.current.handlePointerDown(e); };
+    const tm = (e) => { e.preventDefault(); handlersRef.current.handlePointerMove(e); };
+    const te = (e) => handlersRef.current.handlePointerUp(e);
+    const tc = () => setDragState(null);
+    el.addEventListener("touchstart",  ts, { passive: false });
+    el.addEventListener("touchmove",   tm, { passive: false });
+    el.addEventListener("touchend",    te);
+    el.addEventListener("touchcancel", tc);
+    return () => {
+      el.removeEventListener("touchstart",  ts);
+      el.removeEventListener("touchmove",   tm);
+      el.removeEventListener("touchend",    te);
+      el.removeEventListener("touchcancel", tc);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let inProgressLine = null;
   if (dragState && containerRef.current) {
@@ -190,10 +224,10 @@ export function MatchingGame({ theme = "furniture" }) {
             ref={containerRef}
             className="relative w-full max-w-xs select-none"
             style={{ touchAction: "none", cursor: dragState ? "grabbing" : "default" }}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={() => setDragState(null)}
+            onMouseDown={handlePointerDown}
+            onMouseMove={handlePointerMove}
+            onMouseUp={handlePointerUp}
+            onMouseLeave={() => setDragState(null)}
           >
             <svg className="absolute inset-0 pointer-events-none" style={{ width: "100%", height: "100%", zIndex: 10 }}>
               {linePositions.map(({ pairIdx, x1, y1, x2, y2 }) => (
