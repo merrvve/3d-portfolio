@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { PaintingGame } from '../../components/react/Game/PaintingGame';
+---
+<Layout title="Coloring Book">
+  <PaintingGame client:only="react" />
+</Layout>

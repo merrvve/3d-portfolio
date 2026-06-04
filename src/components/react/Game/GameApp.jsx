@@ -1,6 +1,7 @@
 const GAMES = [
   { href: "/game/find-the-animal", emoji: "🔍", name: "Find the Animal", desc: "Find the matching animal!", color: "#0EA5E9", bg: "#E0F2FE" },
   { href: "/game/trace-the-lines", emoji: "✏️", name: "Trace the Lines", desc: "Draw along the dotted lines!", color: "#D97706", bg: "#FEF3C7" },
+  { href: "/game/coloring", emoji: "🎨", name: "Coloring Book",  desc: "Paint Daisy & Minnie!",            color: "#EC4899", bg: "#FFF0F6" },
   { href: "/game/matching", emoji: "🔗", name: "Matching Games", desc: "Animals, plants, furniture & more!", color: "#7C3AED", bg: "#F3E8FF" },
 ];
 
