@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TraceGame } from '../../components/react/Game/TraceGame';
+---
+
+<Layout title="Trace the Lines">
+  <TraceGame client:only="react" />
+</Layout>

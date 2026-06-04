@@ -1,12 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Game from '../components/Game.astro';
 ---
 
-<Layout title="Game">
-	<div class="min-h-screen">
-        <Game />
-	</div>
-	
+<Layout title="Games">
+  <div class="flex flex-col items-center justify-center min-h-screen gap-8 bg-gradient-to-b from-sky-200 to-sky-500 p-6">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg text-center">🎮 Games</h1>
+    <div class="flex flex-col gap-5 w-full max-w-sm">
+      <a
+        href="/game/find-the-animal"
+        class="flex items-center gap-5 p-5 rounded-3xl shadow-xl transition hover:scale-105 active:scale-95"
+        style="background:#E0F2FE; border: 3px solid #0EA5E9;"
+      >
+        <span class="text-5xl">🔍</span>
+        <div>
+          <div class="text-xl font-extrabold" style="color:#0EA5E9;">Find the Animal</div>
+          <div class="text-sm text-gray-500">Find the matching animal!</div>
+        </div>
+      </a>
+      <a
+        href="/game/trace-the-lines"
+        class="flex items-center gap-5 p-5 rounded-3xl shadow-xl transition hover:scale-105 active:scale-95"
+        style="background:#FEF3C7; border: 3px solid #D97706;"
+      >
+        <span class="text-5xl">✏️</span>
+        <div>
+          <div class="text-xl font-extrabold" style="color:#D97706;">Trace the Lines</div>
+          <div class="text-sm text-gray-500">Draw along the dotted lines!</div>
+        </div>
+      </a>
+    </div>
+  </div>
 </Layout>
 

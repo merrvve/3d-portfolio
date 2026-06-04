@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { FindAnimalGame } from '../../components/react/Game/FindAnimalGame';
+---
+
+<Layout title="Find the Animal">
+  <FindAnimalGame client:only="react" />
+</Layout>
