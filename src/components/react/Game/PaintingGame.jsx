@@ -11,8 +11,15 @@ const COLORS = [
 const BRUSHES = [5, 10, 18, 30];
 
 const PAGES = [
-  { id: "daisy",  label: "Daisy Duck",   src: "/coloring/daisy.jpg"  },
-  { id: "minnie", label: "Minnie Mouse", src: "/coloring/minnie.jfif" },
+  { id: "daisy",    label: "Daisy",    src: "/coloring/daisy.jpg"    },
+  { id: "minnie",   label: "Minnie",   src: "/coloring/minnie.jfif"  },
+  { id: "elsa",     label: "Elsa",     src: "/coloring/elsa.jpg"     },
+  { id: "mermaid",  label: "Mermaid",  src: "/coloring/mermaid.jpg"  },
+  { id: "mermaid2", label: "Mermaid 2",src: "/coloring/mermaid2.jpg" },
+  { id: "unicorn",  label: "Unicorn",  src: "/coloring/unicorn.jpg"  },
+  { id: "cats",     label: "Cats",     src: "/coloring/cats.jpg"     },
+  { id: "dog",      label: "Dog",      src: "/coloring/dog.jpg"      },
+  { id: "giraffe",  label: "Giraffe",  src: "/coloring/giraffe.jpg"  },
 ];
 
 const CW = 600, CH = 800;
@@ -26,6 +33,7 @@ export function PaintingGame() {
 
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
+  const stripRef = useRef(null);
   const drawing = useRef(false);
   const lastPos = useRef(null);
 
@@ -116,21 +124,55 @@ export function PaintingGame() {
         </button>
       </div>
 
-      {/* Page selector */}
-      <div className="flex gap-3">
-        {PAGES.map((p, i) => (
-          <button
-            key={p.id}
-            onClick={() => setPageIdx(i)}
-            className="px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-sm"
-            style={{
-              background: i === pageIdx ? "#EC4899" : "#f3f4f6",
-              color: i === pageIdx ? "white" : "#6b7280",
-            }}
-          >
-            {p.label}
-          </button>
-        ))}
+      {/* Page selector — scrollable thumbnail strip with arrow buttons */}
+      <div className="flex items-center gap-1 w-full max-w-sm px-2">
+        <button
+          onClick={() => stripRef.current?.scrollBy({ left: -200, behavior: "smooth" })}
+          className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm"
+        >
+          ‹
+        </button>
+
+        <div
+          ref={stripRef}
+          className="flex gap-2 overflow-x-auto pb-1 flex-1"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {PAGES.map((p, i) => (
+            <button
+              key={p.id}
+              onClick={() => setPageIdx(i)}
+              className="flex-shrink-0 flex flex-col items-center gap-1 rounded-xl overflow-hidden transition-all"
+              style={{
+                border: i === pageIdx ? "3px solid #EC4899" : "3px solid transparent",
+                boxShadow: i === pageIdx ? "0 0 0 2px #FBCFE8" : "none",
+                background: "#f3f4f6",
+                width: 64,
+              }}
+            >
+              <img
+                src={p.src}
+                alt={p.label}
+                className="w-full"
+                style={{ height: 64, objectFit: "cover" }}
+                onError={e => { e.currentTarget.style.display = "none"; }}
+              />
+              <span
+                className="text-[10px] font-bold pb-1 px-1 text-center leading-tight"
+                style={{ color: i === pageIdx ? "#EC4899" : "#6b7280" }}
+              >
+                {p.label}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => stripRef.current?.scrollBy({ left: 200, behavior: "smooth" })}
+          className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm"
+        >
+          ›
+        </button>
       </div>
 
       {/* ── Drawing area ── */}
