@@ -2,10 +2,19 @@ import { useState, useRef, useEffect } from "react";
 
 // ── Palette & config ──────────────────────────────────────────
 const COLORS = [
+  // Core vivid
   "#EF4444", "#F97316", "#FBBF24", "#EAB308",
   "#22C55E", "#10B981", "#06B6D4", "#3B82F6",
   "#6366F1", "#8B5CF6", "#EC4899", "#F43F5E",
+  // Darks / neutrals
   "#92400E", "#78716C", "#1A1A1A", "#FFFFFF",
+  // Pastels
+  "#FDE68A", "#BBF7D0", "#BFDBFE", "#DDD6FE",
+  "#FECDD3", "#FED7AA", "#CFFAFE", "#F0ABFC",
+  // Skin tones & earth
+  "#FDDBB4", "#E8AC69", "#C68642", "#8D5524",
+  // Extra vivids
+  "#0F766E", "#1D4ED8", "#BE185D", "#65A30D",
 ];
 
 const BRUSHES = [5, 10, 18, 30];
@@ -26,6 +35,10 @@ const PAGES = [
   { id: "rabbit",          label: "Rabbit",          src: "/coloring/rabbit.jpg"                            },
   { id: "giraffe",         label: "Giraffe",         src: "/coloring/giraffe.jpg"                           },
   { id: "cartoon",         label: "Cartoon",         src: "/coloring/a780c8f27a0b9475430167b804c31d04.jpg"  },
+ { id: "baby",          label: "baby",          src: "/coloring/baby.jpg"                            },
+  { id: "lit-ps",         label: "lit-ps",         src: "/coloring/lit-ps.jpg"                           },
+  { id: "mouse",         label: "mouse",         src: "/coloring/mouse.jpg"  },
+
 ];
 
 const CW = 600, CH = 800;
@@ -141,52 +154,50 @@ export function PaintingGame() {
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-pink-50 to-white pb-8 gap-3">
 
       {/* Header */}
-      <div className="flex items-center justify-between w-full max-w-sm px-4 pt-4">
-        <a href="/game" className="text-gray-400 text-xs underline">← Games</a>
-        <h1 className="text-xl font-extrabold text-pink-500">🎨 Coloring Book</h1>
+      <div className="flex items-center justify-between w-full px-4 pt-4">
+        <a href="/game" className="text-gray-400 text-xs md:text-sm underline">← Games</a>
+        <h1 className="text-xl md:text-2xl font-extrabold text-pink-500">🎨 Coloring Book</h1>
         <button
           onClick={clear}
-          className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-lg hover:bg-gray-200 transition font-semibold"
+          className="text-xs md:text-sm bg-gray-100 text-gray-600 px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-gray-200 transition font-semibold"
         >
           Clear 🗑️
         </button>
       </div>
 
       {/* Page selector — scrollable thumbnail strip with arrow buttons */}
-      <div className="flex items-center gap-1 w-full max-w-sm px-2">
+      <div className="flex items-center gap-1 w-full px-2">
         <button
           onClick={() => stripRef.current?.scrollBy({ left: -200, behavior: "smooth" })}
-          className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm"
+          className="flex-shrink-0 w-7 h-7 md:w-11 md:h-11 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm md:text-xl"
         >
           ‹
         </button>
 
         <div
           ref={stripRef}
-          className="flex gap-2 overflow-x-auto pb-1 flex-1"
+          className="flex gap-2 md:gap-3 overflow-x-auto pb-1 flex-1"
           style={{ scrollbarWidth: "none" }}
         >
           {PAGES.map((p, i) => (
             <button
               key={p.id}
               onClick={() => setPageIdx(i)}
-              className="flex-shrink-0 flex flex-col items-center gap-1 rounded-xl overflow-hidden transition-all"
+              className="flex-shrink-0 flex flex-col items-center gap-1 rounded-xl overflow-hidden transition-all w-16 md:w-24 lg:w-28"
               style={{
                 border: i === pageIdx ? "3px solid #EC4899" : "3px solid transparent",
                 boxShadow: i === pageIdx ? "0 0 0 2px #FBCFE8" : "none",
                 background: "#f3f4f6",
-                width: 64,
               }}
             >
               <img
                 src={p.src}
                 alt={p.label}
-                className="w-full"
-                style={{ height: 64, objectFit: "cover" }}
+                className="w-full h-16 md:h-24 lg:h-28 object-cover"
                 onError={e => { e.currentTarget.style.display = "none"; }}
               />
               <span
-                className="text-[10px] font-bold pb-1 px-1 text-center leading-tight"
+                className="text-[10px] md:text-xs font-bold pb-1 px-1 text-center leading-tight"
                 style={{ color: i === pageIdx ? "#EC4899" : "#6b7280" }}
               >
                 {p.label}
@@ -197,7 +208,7 @@ export function PaintingGame() {
 
         <button
           onClick={() => stripRef.current?.scrollBy({ left: 200, behavior: "smooth" })}
-          className="flex-shrink-0 w-7 h-7 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm"
+          className="flex-shrink-0 w-7 h-7 md:w-11 md:h-11 rounded-full bg-gray-100 hover:bg-pink-100 text-gray-500 hover:text-pink-500 font-bold transition flex items-center justify-center text-sm md:text-xl"
         >
           ›
         </button>
@@ -206,9 +217,8 @@ export function PaintingGame() {
       {/* ── Drawing area ── */}
       <div
         ref={containerRef}
-        className="relative rounded-2xl overflow-hidden shadow-xl border-4 border-pink-200 select-none"
+        className="relative rounded-2xl overflow-hidden shadow-xl border-4 border-pink-200 select-none w-full max-w-[360px] md:max-w-[500px] lg:max-w-[600px]"
         style={{
-          width: "min(100vw - 24px, 360px)",
           aspectRatio: "3 / 4",
           touchAction: "none",
           cursor: isEraser ? "cell" : "crosshair",
@@ -253,14 +263,13 @@ export function PaintingGame() {
       </div>
 
       {/* ── Color palette ── */}
-      <div className="flex flex-wrap gap-[10px] justify-center w-full max-w-xs px-2">
+      <div className="flex flex-wrap gap-[10px] md:gap-3 justify-center w-full px-4">
         {COLORS.map(c => (
           <button
             key={c}
             onClick={() => setColor(c)}
-            className="rounded-full transition-all"
+            className="rounded-full transition-all w-9 h-9 md:w-12 md:h-12 lg:w-14 lg:h-14"
             style={{
-              width: 36, height: 36,
               background: c,
               border: c === color
                 ? "3px solid #1a1a1a"
@@ -275,8 +284,8 @@ export function PaintingGame() {
       </div>
 
       {/* ── Brush size row ── */}
-      <div className="flex items-center gap-4">
-        <span className="text-xs font-semibold text-gray-400">Size</span>
+      <div className="flex items-center gap-4 md:gap-6">
+        <span className="text-xs md:text-sm font-semibold text-gray-400">Size</span>
         {BRUSHES.map(s => (
           <button
             key={s}
@@ -294,7 +303,7 @@ export function PaintingGame() {
         ))}
         <button
           onClick={() => setColor("#FFFFFF")}
-          className="ml-1 px-3 py-1 rounded-xl text-xs font-bold transition-all"
+          className="ml-1 px-3 py-1 md:px-4 md:py-2 rounded-xl text-xs md:text-sm font-bold transition-all"
           style={{
             background: isEraser ? "#1a1a1a" : "#f3f4f6",
             color: isEraser ? "white" : "#6b7280",
