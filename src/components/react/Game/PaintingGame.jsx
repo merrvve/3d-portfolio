@@ -11,15 +11,21 @@ const COLORS = [
 const BRUSHES = [5, 10, 18, 30];
 
 const PAGES = [
-  { id: "daisy",    label: "Daisy",    src: "/coloring/daisy.jpg"    },
-  { id: "minnie",   label: "Minnie",   src: "/coloring/minnie.jfif"  },
-  { id: "elsa",     label: "Elsa",     src: "/coloring/elsa.jpg"     },
-  { id: "mermaid",  label: "Mermaid",  src: "/coloring/mermaid.jpg"  },
-  { id: "mermaid2", label: "Mermaid 2",src: "/coloring/mermaid2.jpg" },
-  { id: "unicorn",  label: "Unicorn",  src: "/coloring/unicorn.jpg"  },
-  { id: "cats",     label: "Cats",     src: "/coloring/cats.jpg"     },
-  { id: "dog",      label: "Dog",      src: "/coloring/dog.jpg"      },
-  { id: "giraffe",  label: "Giraffe",  src: "/coloring/giraffe.jpg"  },
+  { id: "daisy",           label: "Daisy",          src: "/coloring/daisy.jpg"                             },
+  { id: "minnie",          label: "Minnie",          src: "/coloring/minnie.jfif"                           },
+  { id: "elsa",            label: "Elsa",            src: "/coloring/elsa.jpg"                              },
+  { id: "tweety",          label: "Tweety",          src: "/coloring/tweety.jpg"                            },
+  { id: "mermaid",         label: "Mermaid",         src: "/coloring/mermaid.jpg"                           },
+  { id: "mermaid2",        label: "Mermaid 2",       src: "/coloring/mermaid2.jpg"                          },
+  { id: "unicorn",         label: "Unicorn",         src: "/coloring/unicorn.jpg"                           },
+  { id: "rainbow-unicorn", label: "Rainbow Unicorn", src: "/coloring/rainbow-unicorn.png"                   },
+  { id: "cats",            label: "Cats",            src: "/coloring/cats.jpg"                              },
+  { id: "kitty",           label: "Kitty",           src: "/coloring/kitty.jpg"                             },
+  { id: "cat-butterfly",   label: "Cat & Butterfly", src: "/coloring/cat-and-butterfly.jpg"                 },
+  { id: "dog",             label: "Dog",             src: "/coloring/dog.jpg"                               },
+  { id: "rabbit",          label: "Rabbit",          src: "/coloring/rabbit.jpg"                            },
+  { id: "giraffe",         label: "Giraffe",         src: "/coloring/giraffe.jpg"                           },
+  { id: "cartoon",         label: "Cartoon",         src: "/coloring/a780c8f27a0b9475430167b804c31d04.jpg"  },
 ];
 
 const CW = 600, CH = 800;
